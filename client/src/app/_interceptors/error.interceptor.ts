@@ -30,8 +30,10 @@ intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEven
                 }
               }
               throw modalStateErrors.flat();
-            } else {
+            } else if(typeof(error.error)==='object'){
               this.toastr.error(error.statusText, error.status);
+            }else{
+              this.toastr.error(error.error, error.status);
             }
             break;
           case 401:
