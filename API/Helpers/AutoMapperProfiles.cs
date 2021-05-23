@@ -3,7 +3,7 @@ using API.Entities;
 using AutoMapper;
 using System.Linq;
 using API.Extensions;
-
+using System;
 namespace API.Helpers
 {
     public class AutoMapperProfiles : Profile
@@ -25,7 +25,7 @@ namespace API.Helpers
             .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src =>
             src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
 
-
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
     }
 }
