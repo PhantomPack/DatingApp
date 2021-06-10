@@ -66,14 +66,14 @@ export class MembersService {
 
   
   getMember(username: string) {
-    const member  =  [...this.memberCache.values()]
-    .reduce((arr, elem) => arr.concat(elem.result), [])
-    .find((member: Member)=> member.username === username);
+    //const member  =  [...this.memberCache.values()]
+    //.reduce((arr, elem) => arr.concat(elem.result), [])
+    //.find((member: Member)=> member.username === username);
 
-    if(member){
-      return of(member);
-    }
-
+    //if(member){
+     // return //of(member);
+    //}
+  
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
@@ -105,6 +105,13 @@ export class MembersService {
     return getPaginatedResult<Partial<Member[]>>(this.baseUrl+ 'likes', params,this.http);
 
  }
+
+ getVisits(predicate: string,  pageNumber: number,  pageSize:number) {
+  let params = getPaginationHeaders(pageNumber, pageSize);
+  params = params.append('predicate', predicate);
+  return getPaginatedResult<Partial<Member[]>>(this.baseUrl+ 'visit', params,this.http);
+
+}
   
   
   

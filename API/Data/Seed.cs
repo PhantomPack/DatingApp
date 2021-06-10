@@ -21,7 +21,8 @@ namespace API.Data
             {
                 new AppRole{Name = "Member"},
                 new AppRole{Name = "Admin"},
-                new AppRole{Name = "Moderator"}
+                new AppRole{Name = "Moderator"},
+                new AppRole{Name = "VIP"}
             };
 
             foreach (var role in roles)
@@ -32,6 +33,13 @@ namespace API.Data
             foreach (var user in users)
             {
                 user.UserName = user.UserName.ToLower();
+                //first photo from seed approved for all users
+                
+                foreach (var photo in user.Photos)
+                {
+                    if(user.Photos.Count==1)
+                        {photo.isApproved = true;}
+                }
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
             }

@@ -17,9 +17,11 @@ namespace API.Data
         {
         }
         public DbSet <UserLike> Likes { get; set; }
+        public DbSet<UserVisit> Visits { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups {get; set;}
         public DbSet<Connection> Connections {get; set;}
+        public DbSet<Photo> Photos {get; set;}
         protected override void OnModelCreating(ModelBuilder builder)
 {
     base.OnModelCreating(builder);
@@ -36,7 +38,8 @@ namespace API.Data
     .HasForeignKey(ur => ur.RoleId)
     .IsRequired();
 
-
+    builder.Entity<Photo>().HasQueryFilter(
+      p => EF.Property<bool>(p, "isApproved")== true);
 
 
     // Specify primary key
@@ -56,6 +59,24 @@ namespace API.Data
         .HasOne(s => s.LikedUser)
         .WithMany(l => l.LikedByUsers)
         .HasForeignKey(s => s.LikedUserId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+    // Specify primary key
+    builder.Entity<UserVisit>()
+        .HasKey(k => new {k.SourceUserId, k.VisitedUserId});
+
+ // Set the relationships
+    builder.Entity<UserVisit>()
+        .HasOne(s => s.SourceUser)
+        .WithMany(l => l.VisitedUsers)
+        .HasForeignKey(s => s.SourceUserId)
+        .OnDelete(DeleteBehavior.Cascade);
+
+        
+    builder.Entity<UserVisit>()
+        .HasOne(s => s.VisitedUser)
+        .WithMany(l => l.VisitedByUsers)
+        .HasForeignKey(s => s.VisitedUserId)
         .OnDelete(DeleteBehavior.Cascade);
 
     builder.Entity<Message>()

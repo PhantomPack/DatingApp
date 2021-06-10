@@ -1,0 +1,34 @@
+<div class="text-center mt-3">
+    <h2>{{predicate === 'visited' ? 'Members I visited' : 'Members who visited me'}}</h2>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="btn-group" name="predicate">
+            <button class="btn btn-primary" btnRadio="visited"
+                [(ngModel)]="predicate" (click)="loadVisits()" >Members I visited</button>
+            <button class="btn btn-primary" btnRadio="visitedBy"
+                [(ngModel)]="predicate" (click)="loadVisits()" >Members who visited me</button>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-2" *ngFor="let member of members">
+            <app-member-card [member]="$any(member)"></app-member-card>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="pagination.totalItems"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;">
+    </pagination>
+  </div>

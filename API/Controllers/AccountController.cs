@@ -10,13 +10,14 @@ using API.Interfaces;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-
+using System.Security.Claims;
 
 namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
 
+     
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
@@ -27,7 +28,6 @@ namespace API.Controllers
             _userManager = userManager;
             _tokenService = tokenService;
             _mapper = mapper;
-            
         }
 
         
@@ -61,7 +61,7 @@ namespace API.Controllers
        
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
         if(!result.Succeeded) return Unauthorized();
-
+  
            return new UserDto
             {
                 Username  = user.UserName,
@@ -70,6 +70,8 @@ namespace API.Controllers
                 KnownAs = user.KnownAs,
                 Gender = user.Gender
             };
+
+        
     }
 
 

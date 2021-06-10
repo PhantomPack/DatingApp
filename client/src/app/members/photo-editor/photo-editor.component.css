@@ -13,4 +13,35 @@ input[type=file]{
 }
 
 
+.image {
+    position: relative;
+}
+
+.waiting-approval {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    visibility: visible;
+    color: red;
+    font-size: medium;
+    margin: 15px;
+}
+
+.approved {
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    visibility: hidden;
+    color: red;
+    font-size: small;
+}
+
+img.img-approved{
+    opacity: 1;
+}
+img.img-waiting-approval{
+    opacity: 0.2;
+}
+
+
 
